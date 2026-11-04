@@ -1,0 +1,16 @@
+{
+  "name": "vb-gram-g-backend",
+  "version": "1.0.0",
+  "description": "VB-G RAM G Smart System Backend Engine — REST API & SSE Real-time Fraud Alarms",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

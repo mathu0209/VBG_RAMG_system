@@ -1,0 +1,39 @@
+.app-layout-root {
+  min-height: 100vh;
+  background-color: var(--bg-canvas);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.app-main-wrapper {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.app-content-body {
+  flex: 1;
+  padding: var(--page-padding);
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .app-main-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .app-content-body {
+    padding: 20px 16px 32px;
+  }
+}

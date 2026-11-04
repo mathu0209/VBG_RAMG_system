@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: mgnregs_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mgnregs_db
+      MYSQL_USER: mgnregs_user
+      MYSQL_PASSWORD: mgnregs_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/mysql_schema.sql:/docker-entrypoint-initdb.d/mysql_schema.sql
+      - mysql_data:/var/lib/mysql
+
+  ai-service:
+    build:
+      context: ./ai-service
+    container_name: mgnregs_ai_service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+
+  backend:
+    build:
+      context: ./backend
+    container_name: mgnregs_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/mgnregs_db?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mgnregs_user
+      - SPRING_DATASOURCE_PASSWORD=mgnregs_password
+      - AI_SERVICE_URL=http://ai-service:8000
+    depends_on:
+      - database
+      - ai-service
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: mgnregs_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
